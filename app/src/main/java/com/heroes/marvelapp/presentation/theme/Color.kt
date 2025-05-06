@@ -1,4 +1,4 @@
-package com.heroes.marvelapp.ui.theme
+package com.heroes.marvelapp.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
