@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.heroes.marvelapp.presentation.theme.MarvelAppTheme
+import com.heroes.marvelapp.presentation.ui.MarvelGridScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,7 +40,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(), containerColor =
                         MaterialTheme.colorScheme.background
                 ) { innerPadding ->
-                    Greeting(
+                    MarvelGridScreen(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
