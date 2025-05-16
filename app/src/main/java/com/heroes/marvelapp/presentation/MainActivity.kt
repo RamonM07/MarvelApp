@@ -25,8 +25,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
+import com.heroes.marvelapp.presentation.navigation.AppNavGraph
 import com.heroes.marvelapp.presentation.theme.MarvelAppTheme
-import com.heroes.marvelapp.presentation.ui.MarvelGridScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,9 +41,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(), containerColor =
                         MaterialTheme.colorScheme.background
                 ) { innerPadding ->
-                    MarvelGridScreen(
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    val navController = rememberNavController()
+                    AppNavGraph(
+                        modifier = Modifier.padding(innerPadding),
+                        navController = navController)
                 }
             }
         }

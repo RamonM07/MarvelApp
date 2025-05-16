@@ -1,7 +1,6 @@
 package com.heroes.marvelapp.presentation.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -38,14 +37,14 @@ import com.heroes.marvelapp.presentation.viewModel.CharactersViewModel
 @Composable
 fun MarvelGridScreen(
     modifier: Modifier = Modifier,
-    viewModel: CharactersViewModel = hiltViewModel()
+    viewModel: CharactersViewModel = hiltViewModel(),
+    onSelectItem : () -> Unit
 ) {
     val charactersState by viewModel.charactersState.collectAsState()
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -67,15 +66,15 @@ fun MarvelGridScreen(
             charactersState.heroes.isNotEmpty() -> {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
-                    modifier = Modifier
-                        .weight(1f)
-                        .background(MaterialTheme.colorScheme.primary),
+                    modifier = Modifier.weight(1f),
                     contentPadding = PaddingValues(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(charactersState.heroes) { character ->
-                        ComicItem(character)
+                        ComicItem(character){
+                            onSelectItem()
+                        }
                     }
                 }
             }
@@ -97,7 +96,10 @@ fun MarvelGridScreen(
 }
 
 @Composable
-fun ComicItem(character: CharactersMarvel) {
+fun ComicItem(
+    character: CharactersMarvel,
+    onSelectItem : () -> Unit
+) {
 
     Card(
         colors = CardDefaults.cardColors(
@@ -108,6 +110,7 @@ fun ComicItem(character: CharactersMarvel) {
             .height(100.dp)
             .padding(vertical = 12.dp),
         shape = RoundedCornerShape(16.dp),
+        onClick = onSelectItem
     ) {
         Text(
             modifier = Modifier.padding(10.dp),
@@ -120,6 +123,6 @@ fun ComicItem(character: CharactersMarvel) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewMarvelGridScreen() {
-    MarvelGridScreen()
+    MarvelGridScreen{}
 }
 

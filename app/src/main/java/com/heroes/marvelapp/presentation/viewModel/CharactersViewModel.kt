@@ -33,7 +33,7 @@ class CharactersViewModel
                     .onSuccess { result ->
                         _charactersState.value = CharactersState(heroes = result)
                         result.forEach {
-                            Log.d("Result:", it.name)
+                            Log.d("Result:", "$it")
                         }
                         Log.d(
                             "RESULT:: ",
