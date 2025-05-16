@@ -1,6 +1,8 @@
 package com.heroes.marvelapp.di
 
 import com.heroes.marvelapp.data.remote.MarvelApiService
+import com.heroes.marvelapp.data.remote.repository.ComicRepositoryImpl
+import com.heroes.marvelapp.domain.repository.ComicRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,4 +38,10 @@ object NetworkModule {
     fun provideMarvelApiService(retrofit: Retrofit): MarvelApiService {
         return retrofit.create(MarvelApiService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideMyRepository(
+        api: MarvelApiService
+    ): ComicRepository = ComicRepositoryImpl(api)
 }

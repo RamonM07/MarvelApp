@@ -28,6 +28,7 @@ import com.heroes.marvelapp.presentation.theme.Purple40
 
 @Composable
 fun MarvelGridScreen(modifier : Modifier = Modifier) {
+    //val viewModel : CharactersViewModel = hiltViewModel()
     val comics = List(6) {
         Comic(
             title = "Name",
