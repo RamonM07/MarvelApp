@@ -13,6 +13,7 @@ class CharactersViewModel @Inject constructor(
     private val getCharactersUsesCase: GetCharactersUsesCase
 ) : ViewModel() {
 
+
     init {
         getCharacters()
     }
@@ -20,6 +21,9 @@ class CharactersViewModel @Inject constructor(
         viewModelScope.launch {
             getCharactersUsesCase.execute()
                 .onSuccess { result ->
+                    result.forEach {
+                        Log.d("Result:", it.name)
+                    }
                     Log.d("RESULT:: ", "${result.forEach { 
                         it.name
                     }}")

@@ -23,12 +23,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.heroes.marvelapp.presentation.theme.Purple40
+import com.heroes.marvelapp.presentation.viewModel.CharactersViewModel
 
 
 @Composable
-fun MarvelGridScreen(modifier : Modifier = Modifier) {
-    //val viewModel : CharactersViewModel = hiltViewModel()
+fun MarvelGridScreen(modifier : Modifier = Modifier, viewModel: CharactersViewModel = hiltViewModel()) {
     val comics = List(6) {
         Comic(
             title = "Name",
