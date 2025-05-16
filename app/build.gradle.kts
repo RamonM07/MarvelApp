@@ -52,7 +52,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    //Dagger Hilt
+    // Dagger Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
@@ -60,8 +60,8 @@ dependencies {
     kapt(libs.hilt.compiler)
 
     // Retrofit
-    implementation (libs.retrofit2.retrofit)
-    implementation (libs.converter.gson)
+    implementation(libs.retrofit2.retrofit)
+    implementation(libs.converter.gson)
 
     // Coroutines
     implementation(libs.jetbrains.kotlinx.coroutines.core)
