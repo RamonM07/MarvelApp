@@ -2,7 +2,6 @@ package com.heroes.marvelapp.data.remote.model.getCharacters
 
 
 import com.google.gson.annotations.SerializedName
-import com.heroes.marvelapp.domain.model.getCharacters.CharactersMarvel
 
 data class Data(
     @SerializedName("count")

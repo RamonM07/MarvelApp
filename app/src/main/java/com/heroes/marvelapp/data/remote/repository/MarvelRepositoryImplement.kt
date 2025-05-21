@@ -1,14 +1,16 @@
 package com.heroes.marvelapp.data.remote.repository
 
+import android.util.Log
 import com.heroes.marvelapp.data.remote.MarvelApiService
 import com.heroes.marvelapp.domain.model.getCharacters.CharactersMarvel
+import com.heroes.marvelapp.domain.model.getCharacters.Thumbnail
 import com.heroes.marvelapp.domain.repository.ComicRepository
 import java.math.BigInteger
 import java.security.MessageDigest
 
 class ComicRepositoryImpl(
     private val api: MarvelApiService
-): ComicRepository {
+) : ComicRepository {
     override suspend fun getCharacters(): List<CharactersMarvel> {
         val ts = 1
         val publicKey = "8e1e2be337d56845b39b94fff729f985"
@@ -25,12 +27,15 @@ class ComicRepositoryImpl(
         )
         if (response.isSuccessful) {
             return response.body()?.data?.results?.map {
+                val thumbnail = it.thumbnail
+                Log.d("thumbnail:: ","$thumbnail")
                 CharactersMarvel(
                     description = it.description ?: "",
                     name = it.name ?: "",
                     id = it.id ?: 0,
                     modified = "",
-                    resourceURI = ""
+                    resourceURI = "",
+                    thumbnail = Thumbnail(thumbnail?.extension ?: "", thumbnail?.path ?: "")
                 )
             } ?: emptyList()
         } else {

@@ -5,5 +5,6 @@ data class Data(
     val limit: Int,
     val offset: Int,
     val results: List<CharactersMarvel>,
+    val thumbnail: Thumbnail,
     val total: Int
 )

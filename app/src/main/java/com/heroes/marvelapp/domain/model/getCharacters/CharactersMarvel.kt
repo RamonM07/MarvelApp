@@ -5,5 +5,6 @@ data class CharactersMarvel(
     val id: Int,
     val modified: String,
     val name: String,
-    val resourceURI: String
+    val resourceURI: String,
+    val thumbnail: Thumbnail
 )

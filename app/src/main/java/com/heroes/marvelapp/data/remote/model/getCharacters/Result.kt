@@ -13,5 +13,7 @@ data class Result(
     @SerializedName("name")
     val name: String? = "",
     @SerializedName("resourceURI")
-    val resourceURI: String? = ""
+    val resourceURI: String? = "",
+    @SerializedName("thumbnail")
+    val thumbnail: Thumbnail? = Thumbnail()
 )
