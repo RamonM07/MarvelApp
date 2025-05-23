@@ -49,13 +49,14 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.heroes.marvelapp.R
+import com.heroes.marvelapp.domain.model.getCharacters.CharactersMarvel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ComicDetailScreen(
-    title: String = "UNCANNY X-MEN (2024) #3",
-    publishedDate: String = "September 25, 2024",
+    dataSelected: CharactersMarvel,
     suggestions: List<String> = listOf(),
     onBack: () -> Unit
 ) {
@@ -64,13 +65,22 @@ fun ComicDetailScreen(
             TopAppBar(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = null)
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            contentDescription = null
+                        )
                     }
                 },
-                title = { Text(text = title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                title = {
+                    Text(
+                        text = dataSelected.name,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                },
                 actions = {
                     IconButton(onClick = {}) {
-                        Icon(Icons.Default.FavoriteBorder, contentDescription = null)
+                        Icon(imageVector = Icons.Default.FavoriteBorder, contentDescription = null)
                     }
                 }
             )
@@ -83,9 +93,11 @@ fun ComicDetailScreen(
                 .padding(16.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(R.drawable.ic_launcher_foreground),
-                    contentDescription = null,
+                AsyncImage(
+                    model = dataSelected.thumbnail.path.plus(".")
+                        .plus(dataSelected.thumbnail.extension)
+                        .replace("http", "https"),
+                    contentDescription = "",
                     modifier = Modifier
                         .size(80.dp)
                         .shadow(elevation = 0.dp, shape = CircleShape),
@@ -93,9 +105,9 @@ fun ComicDetailScreen(
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
-                    Text(text = title, fontWeight = FontWeight.Bold)
+                    Text(text = dataSelected.name, fontWeight = FontWeight.Bold)
                     Text(
-                        text = "Published: $publishedDate",
+                        text = "Published: ${dataSelected.modified}",
                         style = MaterialTheme.typography.bodySmall
                     )
                     Text(

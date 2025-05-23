@@ -1,18 +1,14 @@
 package com.heroes.marvelapp.presentation.ui
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -29,10 +25,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.heroes.marvelapp.R
@@ -45,7 +40,7 @@ import com.heroes.marvelapp.presentation.viewModel.CharactersViewModel
 fun MarvelGridScreen(
     modifier: Modifier = Modifier,
     viewModel: CharactersViewModel = hiltViewModel(),
-    onSelectItem : () -> Unit
+    onSelectItem: (CharactersMarvel) -> Unit
 ) {
     val charactersState by viewModel.charactersState.collectAsState()
 
@@ -63,7 +58,7 @@ fun MarvelGridScreen(
             contentDescription = ""
         )
 
-        Box(modifier = Modifier.weight(0.8f)){
+        Box(modifier = Modifier.weight(0.9f)) {
             when {
                 charactersState.isLoading -> {
                     CircularProgressIndicator(
@@ -77,11 +72,12 @@ fun MarvelGridScreen(
                         modifier = Modifier.fillMaxWidth(),
                         contentPadding = PaddingValues(8.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         items(charactersState.heroes) { character ->
-                            ComicItem(character){
-                                onSelectItem()
+                            ComicItem(character) {
+                                //viewModel.characterSelected.value = character
+                                onSelectItem(character)
                             }
                         }
                     }
@@ -92,53 +88,49 @@ fun MarvelGridScreen(
                 }
             }
         }
-
-        Spacer(Modifier.weight(0.1f))
-
-        Text(
-            text = "Marvel",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.padding(top = 16.dp)
-        )
     }
 }
 
 @Composable
 fun ComicItem(
     character: CharactersMarvel,
-    onSelectItem : () -> Unit
+    onSelectItem: () -> Unit
 ) {
-
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.onBackground
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(300.dp)
-            .padding(vertical = 12.dp),
-        shape = RoundedCornerShape(16.dp),
-        onClick = onSelectItem
-    ) {
-        Log.d("Image path", character.thumbnail.path.plus(".").plus(character.thumbnail.extension))
-        Row {
+    Column {
+        Card(
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.onBackground
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp)
+                .padding(vertical = 12.dp),
+            shape = RoundedCornerShape(16.dp),
+            onClick = onSelectItem
+        ) {
             AsyncImage(
-                model = character.thumbnail.path.plus(".").plus(character.thumbnail.extension),
+                model = character.thumbnail.path.plus(".").plus(character.thumbnail.extension)
+                    .replace("http", "https"),
                 contentDescription = "",
-                modifier = Modifier.size(100.dp),
-                contentScale = ContentScale.Crop
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillBounds
             )
-        }
 
+        }
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = character.name,
+            style = MaterialTheme.typography.bodyLarge,
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onBackground
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewMarvelGridScreen() {
-    MarvelGridScreen{}
+    MarvelGridScreen {}
 }
 
 @Preview
@@ -153,6 +145,6 @@ private fun ItemComicPrev() {
             "",
             Thumbnail("", "")
         )
-    ){}
+    ) {}
 }
 

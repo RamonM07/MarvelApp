@@ -14,37 +14,42 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharactersViewModel
-    @Inject
-    constructor(
-        private val getCharactersUsesCase: GetCharactersUsesCase,
-    ) : ViewModel() {
-        private val _charactersState = MutableStateFlow(CharactersState())
-        val charactersState: StateFlow<CharactersState> = _charactersState.asStateFlow()
+@Inject
+constructor(
+    private val getCharactersUsesCase: GetCharactersUsesCase,
+) : ViewModel() {
 
-        init {
-            getCharacters()
-        }
 
-        private fun getCharacters() {
-            _charactersState.value = CharactersState(isLoading = true)
-            viewModelScope.launch {
-                getCharactersUsesCase
-                    .execute()
-                    .onSuccess { result ->
-                        _charactersState.value = CharactersState(heroes = result)
-                        result.forEach {
-                            Log.d("Result:", "$it")
-                        }
-                        Log.d(
-                            "RESULT:: ",
-                            "${result.forEach {
-                                it.name
-                            }}",
-                        )
-                    }.onFailure {
-                        _charactersState.value = CharactersState(error = it.message)
-                        Log.d("RESULT:: ", "${it.message}")
+    private val _charactersState = MutableStateFlow(CharactersState())
+    val charactersState: StateFlow<CharactersState> = _charactersState.asStateFlow()
+
+
+    init {
+        getCharacters()
+    }
+
+    private fun getCharacters() {
+        _charactersState.value = CharactersState(isLoading = true)
+        viewModelScope.launch {
+            getCharactersUsesCase
+                .execute()
+                .onSuccess { result ->
+                    _charactersState.value = CharactersState(heroes = result)
+                    result.forEach {
+                        Log.d("Result:", "$it")
                     }
-            }
+                    Log.d(
+                        "RESULT:: ",
+                        "${
+                            result.forEach {
+                                it.name
+                            }
+                        }",
+                    )
+                }.onFailure {
+                    _charactersState.value = CharactersState(error = it.message)
+                    Log.d("RESULT:: ", "${it.message}")
+                }
         }
     }
+}
